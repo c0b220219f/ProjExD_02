@@ -13,6 +13,14 @@ delta = {
     pg.K_RIGHT: (+5, 0)
 }
 
+bb_imgs = []
+for r in range(1, 11):
+    bb_img = pg.Surface((20*r, 20*r))
+    pg.draw.circle(bb_img, (255, 0, 0), (10*r, 10*r), 10*r)
+    bb_img.set_colorkey((0, 0, 0))
+    bb_imgs.append(bb_img)    
+# 演習課題２：拡大爆弾のリストの作成
+
 def check_bd(obj_rct: pg.Rect):
     """
     引数：こうかとんRectか爆弾Rect
@@ -90,13 +98,14 @@ def main():
         screen.blit(kk_dct[",".join(map(str,total_move))], kk_rct)  # 演習課題１：飛ぶ方向で画像切り替え
 
         """爆弾"""
+        bb_img = bb_imgs[min(tmr//500, 9)]  # 演習２：時間経過で爆弾を大きくする
         en_check = check_bd(en_rct)
         if not en_check[0]:
             vx *= -1
         if not en_check[1]:
             vy *= -1
         en_rct.move_ip(vx, vy)
-        screen.blit(enn, en_rct)
+        screen.blit(bb_img, en_rct)
 
         pg.display.update()
         tmr += 1
