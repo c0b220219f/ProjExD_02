@@ -36,6 +36,19 @@ def main():
     kk_rct = kk_img.get_rect()
     kk_rct.center = 900, 400
 
+    kk_rev = pg.transform.flip(kk_img,True,False)
+    kk_dct = {
+        "-5,0": kk_img,
+        "-5,-5": pg.transform.rotozoom(kk_img, -45, 1.0),
+        "-5,5": pg.transform.rotozoom(kk_img, 45, 1.0),
+        "0,-5": pg.transform.rotozoom(kk_rev, 90, 1.0),
+        "5,-5": pg.transform.rotozoom(kk_rev, 45, 1.0),
+        "5,0": kk_rev,
+        "5,5": pg.transform.rotozoom(kk_rev, -45, 1.0),
+        "0,5": pg.transform.rotozoom(kk_rev, -90, 1.0),
+        "0,0": kk_img
+    }  # 演習課題１：切り替え用画像の辞書
+
     """ばくだん"""
     enn = pg.Surface((20, 20))
     pg.draw.circle(enn, (255, 0, 0), (10, 10), 10)
@@ -74,7 +87,7 @@ def main():
         kk_rct.move_ip(total_move)
         if check_bd(kk_rct) != (True, True):
             kk_rct.move_ip(-total_move[0], -total_move[1])
-        screen.blit(kk_img, kk_rct)
+        screen.blit(kk_dct[",".join(map(str,total_move))], kk_rct)  # 演習課題１：飛ぶ方向で画像切り替え
 
         """爆弾"""
         en_check = check_bd(en_rct)
