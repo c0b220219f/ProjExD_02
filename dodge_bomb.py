@@ -54,6 +54,10 @@ def main():
             if event.type == pg.QUIT: 
                 return
 
+        if kk_rct.colliderect(en_rct):
+            print("GAME OVER")
+            return
+
         screen.blit(bg_img, [0, 0])
         
         """こうかとん"""
