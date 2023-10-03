@@ -13,6 +13,19 @@ delta = {
     pg.K_RIGHT: (+5, 0)
 }
 
+def check_bd(obj_rct: pg.Rect):
+    """
+    引数：こうかとんRectか爆弾Rect
+    戻り値：タプル（横方向判定結果、縦方向判定結果）
+    画面内にあればTrueなければFalse
+    """
+    yoko, tate = True, True
+    if obj_rct.left < 0 or WIDTH < obj_rct.right:
+        yoko = False
+    if obj_rct.top < 0 or HEIGHT < obj_rct.bottom:
+        tate = False
+    return yoko, tate
+
 def main():
     pg.display.set_caption("逃げろ！こうかとん")
     screen = pg.display.set_mode((WIDTH, HEIGHT))
@@ -55,9 +68,16 @@ def main():
         if key_lst[pg.K_RIGHT]:
             total_move[0] += 5
         kk_rct.move_ip(total_move)
+        if check_bd(kk_rct) != (True, True):
+            kk_rct.move_ip(-total_move[0], -total_move[1])
         screen.blit(kk_img, kk_rct)
 
         """爆弾"""
+        en_check = check_bd(en_rct)
+        if not en_check[0]:
+            vx *= -1
+        if not en_check[1]:
+            vy *= -1
         en_rct.move_ip(vx, vy)
         screen.blit(enn, en_rct)
 
